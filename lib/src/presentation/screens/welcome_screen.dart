@@ -11,60 +11,71 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
           children: [
-            const Column(
-              children: [
-                SizedBox(
-                  height: 100,
-                ),
-                // Name app
-                Text(
-                  'CriptoWacher',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                // description
-                Text(
-                  'An application to observe cryptocurrencies in real time.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
-                  ),
-                ),
-              ],
-            ),
             Column(
-              children: [
-                // sign in button
-                CustomContainedButton(
-                  onPressed: () {},
-                  text: 'Sign in',
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('New user?'),
-                    CustomTextButton(
-                      text: 'Get Started',
-                      onPressed: () => context.push('/sign-up'),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  // Name app
+                  Text(
+                    'CriptoWacher',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Theme.of(context).primaryColor
                     ),
-                  ],
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  // description
+                  const Text(
+                    'An application to observe cryptocurrencies in real time.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+
+            ],
+          ),
+            Positioned(
+              bottom: 0,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: Column(
+                    children: [
+                      // sign in button
+                      CustomContainedButton(
+                        onPressed: () => context.push('/sign-in'),
+                        text: 'Sign in',
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('New user?'),
+                          CustomTextButton(
+                            text: 'Get Started',
+                            onPressed: () => context.push('/sign-up'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 100,
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 100,
-                ),
-              ],
+              ),
             )
           ],
         ),

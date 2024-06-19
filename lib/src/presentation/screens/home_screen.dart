@@ -1,6 +1,7 @@
 import 'package:cripto_wacher/src/presentation/controllers/binance/binance_controller.dart';
 import 'package:cripto_wacher/src/presentation/widgets/items/item_list_currency.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,20 +28,23 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text(
+        title:  Text(
           'CriptoWacher',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30,
+            color: Theme.of(context).primaryColor
           ),
         ),
         actions: [
           IconButton(
             onPressed: () {
               // logout
+              context.go('/');
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.exit_to_app,
+              color: Theme.of(context).primaryColor,
             ),
           )
         ],

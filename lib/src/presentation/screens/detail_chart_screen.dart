@@ -23,15 +23,17 @@ class DetailChartScreen extends StatelessWidget {
           onPressed: () {
             context.go('/home');
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
+            color: Theme.of(context).primaryColor,
           ),
         ),
         title: Text(
           state.cryptoSelected?.cryptoName ?? '',
-          style: const TextStyle(
+          style:  TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30,
+            color: Theme.of(context).primaryColor
           ),
         ),
       ),
@@ -39,7 +41,9 @@ class DetailChartScreen extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            const SizedBox(height: 50,),
+            const SizedBox(
+              height: 50,
+            ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 14),
               child: ItemListCurrency(
@@ -47,7 +51,9 @@ class DetailChartScreen extends StatelessWidget {
                 onPressed: () {},
               ),
             ),
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             // filter by chart
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 14),
@@ -59,27 +65,34 @@ class DetailChartScreen extends StatelessWidget {
                       return Container(
                         padding: const EdgeInsets.only(left: 8),
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.withOpacity(0.2)),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.2)),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: DropdownButton<Currency>(
                           value: state.currencyValue,
-                          icon: const Icon(Icons.arrow_drop_down),
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Theme.of(context).primaryColor,
+                          ),
                           elevation: 16,
-                          style: const TextStyle(fontSize: 14, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black),
                           underline: Container(
                             color: Colors.transparent,
                           ),
                           onChanged: (Currency? value) {
                             if (value != null) {
                               state.currencyValue = value;
-        
+
                               state.getCurrenciesPrices(
-                                  symbol: value.symbol, interval: state.intervalSelected);
+                                  symbol: value.symbol,
+                                  interval: state.intervalSelected);
                             }
                           },
                           items: state.listCurrencies
-                              .map<DropdownMenuItem<Currency>>((Currency value) {
+                              .map<DropdownMenuItem<Currency>>(
+                                  (Currency value) {
                             return DropdownMenuItem<Currency>(
                               value: value,
                               child: Text(value.symbol),
@@ -98,7 +111,8 @@ class DetailChartScreen extends StatelessWidget {
                             onPressed: () {
                               state.setInterval(intervals[index]);
                             },
-                            isActive: state.intervalSelected == intervals[index],
+                            isActive:
+                                state.intervalSelected == intervals[index],
                             label: intervals[index],
                           ),
                         ),

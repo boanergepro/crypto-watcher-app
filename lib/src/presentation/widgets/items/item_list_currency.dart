@@ -25,12 +25,12 @@ class ItemListCurrency extends StatelessWidget {
               child: Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor: Colors.grey.withOpacity(0.2),
+                    backgroundColor: Theme.of(context).primaryColor,
                     child: Center(
                       child: Text(
                         cryptoModel.symbol[0],
                         style: const TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),

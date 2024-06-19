@@ -22,7 +22,7 @@ class ItemInterval extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.withOpacity(0.2)),
           borderRadius: BorderRadius.circular(8),
-          color: isActive ? Colors.grey : Colors.transparent,
+          color: isActive ? Theme.of(context).primaryColor : Colors.transparent,
         ),
         child: Center(
           child: Text(label, style: TextStyle(color: isActive ? Colors.white : Colors.black),),
