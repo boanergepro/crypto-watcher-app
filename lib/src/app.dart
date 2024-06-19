@@ -1,6 +1,6 @@
 import 'package:cripto_wacher/src/core/routes/routes.dart';
 import 'package:cripto_wacher/src/presentation/controllers/auth/sign_up_controller.dart';
-import 'package:cripto_wacher/src/presentation/controllers/home/home_controller.dart';
+import 'package:cripto_wacher/src/presentation/controllers/binance/binance_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SignUpController()),
-        ChangeNotifierProvider(create: (context) => HomeController()),
+        ChangeNotifierProvider(create: (context) => BinanceController()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

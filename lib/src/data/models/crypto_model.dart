@@ -1,10 +1,15 @@
+import 'package:cripto_wacher/src/core/utils/format_price.dart';
+import 'package:cripto_wacher/src/core/utils/get_name_currency.dart';
+
 class CryptoModel {
+  final String cryptoName;
   final String symbol;
   final double volume;
-  final double lastPrice;
+  final String lastPrice;
   final double priceChangePercent;
 
   CryptoModel({
+    required this.cryptoName,
     required this.symbol,
     required this.volume,
     required this.lastPrice,
@@ -13,9 +18,10 @@ class CryptoModel {
 
   factory CryptoModel.fromJson(Map<String, dynamic> json) {
     return CryptoModel(
+      cryptoName: getNameCurrency(json['s']),
       symbol: json['s'],
       volume: double.parse(json['v']),
-      lastPrice: double.parse(json['c']),
+      lastPrice: formatPrice(double.parse(json['c'])),
       priceChangePercent: double.parse(json['P']),
     );
   }

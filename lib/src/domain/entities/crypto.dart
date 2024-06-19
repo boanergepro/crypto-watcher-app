@@ -1,12 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-class Crypto extends Equatable {
+class Cryptdo extends Equatable {
+  final String cryptoName;
   final String symbol;
   final double volume;
   final double lastPrice;
   final double priceChangePercent;
 
-  const Crypto({
+  const Cryptdo({
+    required this.cryptoName,
     required this.symbol,
     required this.volume,
     required this.lastPrice,
@@ -15,6 +17,7 @@ class Crypto extends Equatable {
 
   @override
   List<Object?> get props => [
+        cryptoName,
         symbol,
         volume,
         lastPrice,

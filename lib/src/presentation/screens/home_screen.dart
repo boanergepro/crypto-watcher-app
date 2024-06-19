@@ -1,15 +1,7 @@
-import 'package:cripto_wacher/src/domain/entities/candlestick.dart';
-import 'package:cripto_wacher/src/domain/entities/currency.dart';
-import 'package:cripto_wacher/src/presentation/controllers/home/home_controller.dart';
+import 'package:cripto_wacher/src/presentation/controllers/binance/binance_controller.dart';
+import 'package:cripto_wacher/src/presentation/widgets/items/item_list_currency.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-class SalesData {
-  SalesData(this.year, this.sales);
-  final String year;
-  final double sales;
-}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,75 +11,77 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    context.read<HomeController>().getCurrencies();
-    context.read<HomeController>().establishSocketConnectionTicker();
+    context.read<BinanceController>().establishSocketConnectionTicker();
+    context.read<BinanceController>().getCurrencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          margin: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              // list of currencies
-              Consumer<HomeController>(
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          'CriptoWacher',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // logout
+            },
+            icon: const Icon(
+              Icons.exit_to_app,
+            ),
+          )
+        ],
+      ),
+      body: Container(
+        margin: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            // list of currencies updated in the last 24h
+            const SizedBox(
+              height: 15,
+            ),
+            const Text(
+              'List of the cryptocurrencies that have experienced the highest changes in the last 24 hours.',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Expanded(
+              child: Consumer<BinanceController>(
                 builder: (context, state, _) {
-                  return DropdownButton<Currency>(
-                    value: state.currencyValue,
-                    icon: const Icon(Icons.arrow_downward),
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (Currency? value) {
-                      if (value != null) {
-                        setState(() {
-                          state.currencyValue = value;
-                        });
-                        state.getCurrenciesPrices(symbol: value.symbol, interval: '1d');
-                      }
+                  return ListView.builder(
+                    itemCount: state.listCrypto.length,
+                    itemBuilder: (context, index) {
+                      final crypto = state.listCrypto[index];
 
-                    },
-                    items: state.listCurrencies.map<DropdownMenuItem<Currency>>((Currency value) {
-                      return DropdownMenuItem<Currency>(
-                        value: value,
-                        child: Text(value.symbol),
+                      return ItemListCurrency(
+                        onPressed: () {
+                          state.goToDetail(crypto: crypto, context: context);
+                        },
+                        cryptoModel: state.listCrypto[index],
                       );
-                    }).toList(),
+                    },
                   );
                 },
               ),
-
-              // chart
-              Consumer<HomeController>(
-                builder: (context, state, _) {
-
-                  return SfCartesianChart(
-                    key: UniqueKey(),
-                    primaryXAxis: DateTimeAxis(),
-                    series: [
-                      CandleSeries<Candlestick, DateTime>(
-                        dataSource: state.listCurrenciesPrices,
-                        xValueMapper: (Candlestick data, _) => data.time,
-                        lowValueMapper: (Candlestick data, _) => data.low,
-                        highValueMapper: (Candlestick data, _) => data.high,
-                        openValueMapper: (Candlestick data, _) => data.open,
-                        closeValueMapper: (Candlestick data, _) => data.close,
-                      )
-                    ],
-                  );
-                },
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
